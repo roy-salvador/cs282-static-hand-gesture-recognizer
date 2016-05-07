@@ -19,13 +19,13 @@ A python application which recognizes a subset of the American Sign Language (AS
   python handgesture-recorder.py
   ```
 
-3. Generate the HOG features file. This will be used as training examples of the SVM.
+3. Generate the HOG features file. This will be used as training examples of the SVM. Place it inside model directory.  
   
   ```  
   python handgesture-featureextractor.py
   ```
   
-5. Run the Recognizer Application.
+5. Update the HOG_WINDOW_SIZE parameter with what was used in featur eextraction. Run the Recognizer Application.
 
   ```  
   python handgesture-recognizer.py
