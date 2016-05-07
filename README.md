@@ -25,7 +25,7 @@ A python application which recognizes a subset of the American Sign Language (AS
   python handgesture-featureextractor.py
   ```
   
-5. Update the HOG_WINDOW_SIZE parameter with what was used in featur eextraction. Run the Recognizer Application.
+5. Update the HOG_WINDOW_SIZE parameter with what was used in feature extraction. Run the Recognizer Application.
 
   ```  
   python handgesture-recognizer.py
