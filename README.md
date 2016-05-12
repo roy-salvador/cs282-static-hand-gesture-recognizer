@@ -25,6 +25,13 @@ A python application which recognizes a subset of the American Sign Language (AS
   python handgesture-featureextractor.py
   ```
   
+4. Train a multi class SVM using the HOG features file and see the training and test set performance. This also saves the
+SVM model to files named hog_svm*.pkl*. Place them all inside the model directory.
+  
+  ```  
+  python handgesture-measureperformance.py
+  ```
+  
 5. Update the HOG_WINDOW_SIZE parameter with what was used in feature extraction. Run the Recognizer Application.
 
   ```  
