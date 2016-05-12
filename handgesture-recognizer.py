@@ -8,8 +8,9 @@ import cv2
 import skimage.feature as skf
 from sklearn.svm import LinearSVC
 from sklearn.multiclass import OneVsRestClassifier
+from sklearn.externals import joblib 
  
-HOG_WINDOW_SIZE=48
+HOG_WINDOW_SIZE=88
  
 # Define Gesture Classes
 GESTURE_CLASSES=['A', 'B', 'D', 'E', 'F', 'K', 'L', 'N', 'W', 'Y']
@@ -27,22 +28,25 @@ upper = np.array([255, 173, 127], dtype = "uint8")
 
 
 # Train MultiClass SVM
-TRAINING_FEATURES = []
-TRAINING_LABELS = []
-trainFile = open('model/hog_training_set_' + str(HOG_WINDOW_SIZE) + '.csv', 'r')
-for line in trainFile:
-    j=0
-    featuresVector = []
-    for value in line.strip().split(',') :
-      if j==0 :
-        TRAINING_LABELS.append(int(value))
-      else :
-        featuresVector.append(float(value)) 
-      j = j+1
-    TRAINING_FEATURES.append(featuresVector)	
-trainFile.close()
-print 'Initializing One vs Rest Multi Class SVM from saved training data'
-OVR_SVM_CLF = OneVsRestClassifier(LinearSVC(random_state=0)).fit(TRAINING_FEATURES, TRAINING_LABELS)
+#TRAINING_FEATURES = []
+#TRAINING_LABELS = []
+#trainFile = open('model/hog_training_set_' + str(HOG_WINDOW_SIZE) + '.csv', 'r')
+#for line in trainFile:
+#    j=0
+#    featuresVector = []
+#    for value in line.strip().split(',') :
+#      if j==0 :
+#        TRAINING_LABELS.append(int(value))
+#      else :
+#        featuresVector.append(float(value)) 
+#      j = j+1
+#    TRAINING_FEATURES.append(featuresVector)	
+#trainFile.close()
+#print 'Initializing One vs Rest Multi Class SVM from saved training data'
+#OVR_SVM_CLF = OneVsRestClassifier(LinearSVC(random_state=0)).fit(TRAINING_FEATURES, TRAINING_LABELS)
+
+# Load SVM model
+OVR_SVM_CLF = joblib.load('model/hog_svm_' + str(HOG_WINDOW_SIZE) + '.pkl')
 
 
 # capture video from camera
@@ -98,7 +102,12 @@ while True:
         segmentedGraySkin = graySkin[y:y+h,x:x+w]
         resizedSegmentedGraySkin = cv2.resize(segmentedGraySkin, (HOG_WINDOW_SIZE, HOG_WINDOW_SIZE)) 
         
+        #hog, hogImage = skf.hog(resizedSegmentedGraySkin, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(3, 3), visualise=True, normalise=True)
         hog = skf.hog(resizedSegmentedGraySkin, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(3, 3), visualise=False, normalise=True)
+        #cv2.imshow("ResizedImage",  resizedSegmentedGraySkin)
+        #cv2.imshow("HogImage", hogImage)
+       
+       
         temp = np.array(hog).reshape((1,len(hog)))
         predictionFrame = gestureFrame[OVR_SVM_CLF.predict(temp)[0]]
     else :

@@ -6,10 +6,14 @@ import numpy as np
 import argparse
 import cv2
 import skimage.feature as skf
+import skimage.measure as skm
 from sklearn.svm import LinearSVC
+import sklearn.svm as svm
+from sklearn import preprocessing
 from sklearn.multiclass import OneVsRestClassifier
 import os
 from datetime import datetime
+from sklearn.externals import joblib
 
 GESTURE_CLASSES=['A', 'B', 'D', 'E', 'F', 'K', 'L', 'N', 'W', 'Y']
 HOG_WINDOW_SIZE=88
@@ -36,6 +40,9 @@ print len(TRAINING_FEATURES[0])
 print datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 OVR_SVM_CLF = OneVsRestClassifier(LinearSVC(random_state=0)).fit(TRAINING_FEATURES, TRAINING_LABELS)
 print datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+print 'Saving SVM model to hog_svm' + str(HOG_WINDOW_SIZE) + '.pkl'
+joblib.dump(OVR_SVM_CLF, 'hog_svm_' + str(HOG_WINDOW_SIZE) + '.pkl') 
+
 
 # Measure performance of dataset contained in some directoryL
 def measurePerformance(datasetDIR) :
@@ -76,6 +83,11 @@ def measurePerformance(datasetDIR) :
                             temp = np.array(hog).reshape((1,len(hog)))
                             prediction = OVR_SVM_CLF.predict(temp)[0]
                             
+                            #binarySkin = cv2.inRange(graySkin, 1, 255)
+                            #hu = cv2.HuMoments(cv2.moments(binarySkin)).flatten()
+                            #logTransformedHu = -np.sign(hu) * np.log10(np.abs(hu))
+                            #temp = np.array(hog.tolist() + hu.tolist()).reshape((1,len(hog.tolist() + hu.tolist())))  
+                            #prediction = OVR_SVM_CLF.predict(temp)[0]
                             
                             GESTURE_COUNT[prediction][GESTURE_CLASSES.index(tag)] = GESTURE_COUNT[prediction][GESTURE_CLASSES.index(tag)] + 1
                         
@@ -99,5 +111,6 @@ def measurePerformance(datasetDIR) :
     
 measurePerformance('training_set')
 measurePerformance('test_set')
+
 
 cv2.destroyAllWindows()
