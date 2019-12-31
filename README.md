@@ -1,6 +1,6 @@
 # cs282-static-hand-gesture-recognizer
 
-A python application which recognizes a subset of the American Sign Language (ASL) in real time using Histogram of Ortiented Gradients (HOG). A Mini Project requirement for CS 282 course at University of the Philippines Diliman AY 2015-2016 under Sir Prospero Naval.
+A python application which recognizes a subset of the American Sign Language (ASL) in real time using Histogram of Oriented Gradients (HOG). A Mini Project requirement for CS 282 course at University of the Philippines Diliman AY 2015-2016 under Sir Prospero Naval.
 
 
 
