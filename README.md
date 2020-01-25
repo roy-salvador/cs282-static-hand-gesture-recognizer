@@ -2,7 +2,7 @@
 
 A python application which recognizes a subset of the American Sign Language (ASL) in real time using Histogram of Oriented Gradients (HOG). A Mini Project requirement for CS 282 course at University of the Philippines Diliman AY 2015-2016 under Sir Prospero Naval.
 
-![Demo Application](https://github.com/roy-salvador/udacity-loan-data-analysis/blob/master/slide_deck.gif)
+![Demo Application](https://github.com/roy-salvador/cs282-static-hand-gesture-recognizer/blob/master/Demo.gif)
 
 ## Requirements
 * [OpenCV](http://docs.opencv.org/3.1.0/d5/de5/tutorial_py_setup_in_windows.html#gsc.tab=0) Computer Vision Library
